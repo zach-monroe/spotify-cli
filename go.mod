@@ -7,4 +7,5 @@ require (
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/spf13/cobra v1.10.1 // indirect
 	github.com/spf13/pflag v1.0.9 // indirect
+	github.com/zach-monroe/spotify-cli/spot v0.0.0-20251205194258-0cc2c79c7ea7 // indirect
 )
