@@ -1,6 +1,7 @@
 package spot
 
 import (
+	"encoding/json"
 	"errors"
 	"io"
 	"log"
@@ -10,6 +11,10 @@ import (
 	"strings"
 )
 
+type TokenResponse struct {
+	AccessToken string `json:"access_token"`
+}
+
 func GetAuth() (string, error) {
 	client_id := os.Getenv("CLIENT_ID")
 	client_secret := os.Getenv("CLIENT_SECRET")
@@ -18,7 +23,6 @@ func GetAuth() (string, error) {
 		return "", errors.New("No Environment variables")
 	}
 	tokenURL := "https://accounts.spotify.com/api/token"
-
 	data := url.Values{}
 
 	data.Set("grant_type", "client_credentials")
@@ -39,6 +43,10 @@ func GetAuth() (string, error) {
 
 	// Read response
 	body, _ := io.ReadAll(resp.Body)
-	return string(body), nil
+	var tokenResp TokenResponse
+	if err := json.Unmarshal(body, &tokenResp); err != nil {
+		return "", err
+	}
+	return tokenResp.AccessToken, nil
 
 }
